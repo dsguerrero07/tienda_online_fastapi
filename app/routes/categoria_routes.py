@@ -2,22 +2,23 @@ from fastapi import APIRouter, HTTPException , status
 from sqlmodel import Session, select
 from app.db import engine
 from app.models.categoria import Categoria
+from app.schemas.categoria_schemas import CategoriaCreate, CategoriaOut , CategoriaUpdate
 
 router = APIRouter(prefix="/categorias", tags=["Categorias"])
 
 #crear categoria
-@router.post("/", response_model=Categoria, status_code=status.HTTP_201_CREATED)
-def crear_categoria(categoria: Categoria):
+@router.post("/", response_model=CategoriaOut, status_code=status.HTTP_201_CREATED)
+def crear_categoria(categoria: CategoriaCreate):
     with Session(engine) as session:
-        #validar nombre unico
         existente = session.exec(select(Categoria).where(Categoria.nombre == categoria.nombre)).first()
         if existente:
-            raise HTTPException(status_code=400, detail="El nombre de la categoría ya existe")
-        
-        session.add(categoria)
+            raise HTTPException(status_code=409, detail="El nombre de la categoría ya existe")
+
+        nueva = Categoria(**categoria.model_dump())
+        session.add(nueva)
         session.commit()
-        session.refresh(categoria)
-        return categoria
+        session.refresh(nueva)
+        return nueva
 
 #listar categorias
 @router.get("/",status_code=status.HTTP_201_CREATED)
