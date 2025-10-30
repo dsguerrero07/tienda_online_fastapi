@@ -61,3 +61,18 @@ def desactivar_categoria(categoria_id: int):
         categoria.activa = False
         session.commit()
         return {"mensaje": "Categoría desactivada correctamente"}
+
+# recuperar categoria desactivada
+@router.post("/recuperar/{categoria_id}")
+def recuperar_categoria(categoria_id: int):
+    with Session(engine) as session:
+        categoria = session.get(Categoria, categoria_id)
+        if not categoria:
+            raise HTTPException(status_code=404, detail="Categoría no encontrada")
+
+        if categoria.activa:
+            raise HTTPException(status_code=400, detail="La categoría ya está activa")
+
+        categoria.activa = True
+        session.commit()
+        return {"mensaje": "Categoría recuperada correctamente"}
