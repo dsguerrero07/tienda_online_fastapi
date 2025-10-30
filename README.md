@@ -12,7 +12,9 @@ Proyecto desarrollado con **FastAPI + SQLModel**, que gestiona productos y categ
 - Consulta de productos por categoría
 - Gestión de stock (sin valores negativos)
 - Activación/Desactivación de categorías y productos
-- Filtros por precio, stock y categoría
+- Listado de categorías y productos activos e inactivos
+- Recuperación de categorías y productos desactivados
+- Filtros por categoría y nivel de stock
 
 ---
 
@@ -23,6 +25,24 @@ Proyecto desarrollado con **FastAPI + SQLModel**, que gestiona productos y categ
 - SQLModel
 - Uvicorn
 - Pydantic
+
+---
+
+## Endpoints Principales 
+
+- Get "/" mensaje de bienvenida
+- POST "/categoria/" crear categoria 
+- GET "/categorias/" Listar categorías activas
+- GET "/categorias/desactivadas" Listar categorías desactivadas
+- PUT "/categorias/{id}" Actualizar categoría
+- DELETE "/categorias/{id}" Desactivar categoría
+- PUT "/categorias/{id}/recuperar" Reactivar categoría
+- POST "/productos/" Crear producto
+- GET  "/productos/" Listar productos activos
+- GET "/productos/desactivados" Listar productos desactivados
+- PUT "/productos/{id}" Actualizar producto
+- DELETE "/productos/{id}" Desactivar producto
+- PUT "/productos/{id}/recuperar" Reactivar producto
 
 ---
 
