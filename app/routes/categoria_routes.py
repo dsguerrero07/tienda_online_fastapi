@@ -27,6 +27,13 @@ def listar_categorias():
         categorias=session.exec(select(Categoria).where(Categoria.activa==True)).all()
         return categorias
 
+#lista categorias desactivadas
+@router.get("/desactivadas",status_code=status.HTTP_200_OK)
+def listar_categorias_desactivadas():
+    with Session(engine) as session:
+        categorias=session.exec(select(Categoria).where(Categoria.activa==False)).all()
+        return categorias
+
 #obtener categoria con su productos
 @router.get("/{categoria_id}")
 def obtener_categoria(categoria_id: int):
