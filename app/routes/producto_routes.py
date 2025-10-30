@@ -82,3 +82,18 @@ def listar_productos_desactivados():
     with Session(engine) as session:
         productos=session.exec(select(Producto).where(Producto.activo==False)).all()
         return productos
+#recuperar producto desactivado
+@router.post("/recuperar/{producto_id}")
+def recuperar_producto(producto_id: int):
+    with Session(engine) as session:
+        producto = session.get(Producto, producto_id)
+        if not producto:
+            raise HTTPException(status_code=404, detail="Producto no encontrado")
+
+        if producto.activo:
+            raise HTTPException(status_code=400, detail="El producto ya está activo")
+
+        producto.activo = True
+        session.commit()
+        session.refresh(producto)
+        return {"mensaje": "Producto recuperado correctamente"}
