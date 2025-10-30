@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException , status
 from sqlmodel import Session, select
 from app.db import engine
 from app.models.categoria import Categoria
-from app.schemas.categoria_schemas import CategoriaCreate, CategoriaOut , CategoriaUpdate
+from app.schemas.categoria_schema import CategoriaCreate, CategoriaOut , CategoriaUpdate
 
 router = APIRouter(prefix="/categorias", tags=["Categorias"])
 
