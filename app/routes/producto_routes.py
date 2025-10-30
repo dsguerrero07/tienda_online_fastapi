@@ -75,3 +75,10 @@ def desactivar_producto(producto_id: int):
         producto.activo = False
         session.commit()
         return {"mensaje": "Producto desactivado correctamente"}
+
+#listar productos desactivados
+@router.get("/desactivados")
+def listar_productos_desactivados():
+    with Session(engine) as session:
+        productos=session.exec(select(Producto).where(Producto.activo==False)).all()
+        return productos
